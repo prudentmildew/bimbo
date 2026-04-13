@@ -1,5 +1,6 @@
 import { Link, useLocation } from '@tanstack/react-router';
-import type * as React from 'react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 import { ClipControls } from '../sidebar/ClipControls';
 import { LayerPanel } from '../sidebar/LayerPanel';
 import { NavigationModeToggle } from '../sidebar/NavigationModeToggle';
@@ -20,80 +21,43 @@ export function LeftSidebar() {
   const location = useLocation();
 
   return (
-    <aside style={sidebarStyle}>
-      <div style={headerStyle}>
-        <h1 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: '#fff' }}>
-          bimbo
-        </h1>
-        <p style={{ margin: 0, fontSize: 11, color: '#9ca3af' }}>
-          BIM Prototype
+    <aside className="flex flex-col w-[260px] shrink-0 border-r border-border bg-card">
+      <div className="p-3 border-b border-border">
+        <h1 className="m-0 text-lg font-bold text-foreground">bimbo</h1>
+        <p className="m-0 text-[11px] font-mono text-muted-foreground">
+          v0.0.0-dev
         </p>
       </div>
 
-      <nav style={{ flex: 1, overflowY: 'auto', padding: 8 }}>
-        <LayerPanel />
-        <div style={dividerStyle} />
-        <ClipControls />
-        <div style={dividerStyle} />
-        <NavigationModeToggle />
-        <div style={dividerStyle} />
-        <p style={sectionLabelStyle}>Modules</p>
-        {modules.map((m) => {
-          const isActive = location.pathname === m.path;
-          return (
-            <Link
-              key={m.path}
-              to={m.path}
-              style={{
-                ...navItemStyle,
-                background: isActive ? '#374151' : 'transparent',
-                color: isActive ? '#fff' : '#d1d5db',
-                textDecoration: 'none',
-              }}
-            >
-              {m.label}
-            </Link>
-          );
-        })}
-      </nav>
+      <ScrollArea className="flex-1">
+        <div className="p-2">
+          <LayerPanel />
+          <Separator className="my-2" />
+          <ClipControls />
+          <Separator className="my-2" />
+          <NavigationModeToggle />
+          <Separator className="my-2" />
+          <p className="m-0 mb-1 px-2 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+            Modules
+          </p>
+          {modules.map((m) => {
+            const isActive = location.pathname === m.path;
+            return (
+              <Link
+                key={m.path}
+                to={m.path}
+                className={`flex items-center gap-2 rounded px-2 py-1.5 text-[13px] no-underline ${
+                  isActive
+                    ? 'bg-secondary text-foreground'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {m.label}
+              </Link>
+            );
+          })}
+        </div>
+      </ScrollArea>
     </aside>
   );
 }
-
-const sidebarStyle: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  width: 220,
-  borderRight: '1px solid #374151',
-  background: '#1f2937',
-  flexShrink: 0,
-};
-
-const headerStyle: React.CSSProperties = {
-  padding: 12,
-  borderBottom: '1px solid #374151',
-};
-
-const dividerStyle: React.CSSProperties = {
-  borderBottom: '1px solid #374151',
-  margin: '8px 0',
-};
-
-const sectionLabelStyle: React.CSSProperties = {
-  margin: '0 0 4px',
-  padding: '0 8px',
-  fontSize: 10,
-  fontWeight: 600,
-  textTransform: 'uppercase',
-  letterSpacing: 1,
-  color: '#6b7280',
-};
-
-const navItemStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: 8,
-  borderRadius: 4,
-  padding: '6px 8px',
-  fontSize: 13,
-};

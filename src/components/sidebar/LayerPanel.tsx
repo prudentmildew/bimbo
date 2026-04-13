@@ -1,5 +1,9 @@
-import type * as React from 'react';
 import { useMemo, useState } from 'react';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 import type { Discipline } from '../../lib/model/types';
 import { useAppStore } from '../../store';
 
@@ -7,6 +11,12 @@ const DISCIPLINE_LABELS: Record<Discipline, string> = {
   architectural: 'Architecture',
   structural: 'Structure',
   mep: 'MEP',
+};
+
+const DISCIPLINE_COLORS: Record<Discipline, string> = {
+  architectural: 'bg-architecture',
+  structural: 'bg-structure',
+  mep: 'bg-mep',
 };
 
 export function LayerPanel() {
@@ -31,30 +41,18 @@ export function LayerPanel() {
     return map;
   }, [objects]);
 
-  const toggleExpand = (discipline: string) => {
-    setExpanded((prev) => ({ ...prev, [discipline]: !prev[discipline] }));
-  };
-
   const allVisible = Object.values(disciplineVisibility).every(Boolean);
 
   return (
-    <div style={{ padding: '8px 0' }}>
-      <div style={headerRowStyle}>
-        <span
-          style={{
-            fontSize: 10,
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: 1,
-            color: '#6b7280',
-          }}
-        >
+    <div className="py-2">
+      <div className="flex items-center justify-between px-2 pb-1.5">
+        <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
           Layers
         </span>
         <button
           type="button"
           onClick={() => setAllVisible(!allVisible)}
-          style={showAllBtnStyle}
+          className="text-[10px] text-muted-foreground bg-transparent border-none cursor-pointer p-0 hover:text-foreground"
         >
           {allVisible ? 'Hide all' : 'Show all'}
         </button>
@@ -66,41 +64,50 @@ export function LayerPanel() {
         const types = tree[discipline];
 
         return (
-          <div key={discipline}>
-            <div style={disciplineRowStyle}>
-              <button
-                type="button"
-                onClick={() => toggleExpand(discipline)}
-                style={expandBtnStyle}
-              >
+          <Collapsible
+            key={discipline}
+            open={isExpanded}
+            onOpenChange={(open) =>
+              setExpanded((prev) => ({ ...prev, [discipline]: open }))
+            }
+          >
+            <div className="flex items-center px-2 py-0.5">
+              <CollapsibleTrigger className="bg-transparent border-none text-muted-foreground cursor-pointer text-[8px] p-0 pr-1 w-4">
                 {isExpanded ? '\u25BC' : '\u25B6'}
-              </button>
-              <label style={labelStyle}>
+              </CollapsibleTrigger>
+              <span
+                className={`inline-block w-2 h-2 rounded-full mr-1.5 ${DISCIPLINE_COLORS[discipline]}`}
+              />
+              <label className="flex items-center gap-1.5 text-xs text-foreground/80 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={isVisible}
                   onChange={() => toggleDiscipline(discipline)}
-                  style={checkboxStyle}
+                  className="m-0 accent-primary"
                 />
                 {DISCIPLINE_LABELS[discipline]}
               </label>
             </div>
 
-            {isExpanded &&
-              [...types].sort().map((ifcType) => {
+            <CollapsibleContent>
+              {[...types].sort().map((ifcType) => {
                 const typeVisible = typeVisibility[ifcType] ?? true;
                 return (
-                  <div key={ifcType} style={typeRowStyle}>
-                    <label style={labelStyle}>
+                  <div key={ifcType} className="py-0.5 px-2 pl-7">
+                    <label className="flex items-center gap-1.5 text-xs cursor-pointer">
                       <input
                         type="checkbox"
                         checked={typeVisible && isVisible}
                         disabled={!isVisible}
                         onChange={() => toggleType(ifcType)}
-                        style={checkboxStyle}
+                        className="m-0 accent-primary"
                       />
                       <span
-                        style={{ color: !isVisible ? '#4b5563' : '#d1d5db' }}
+                        className={
+                          isVisible
+                            ? 'text-foreground/80'
+                            : 'text-muted-foreground'
+                        }
                       >
                         {ifcType}
                       </span>
@@ -108,59 +115,10 @@ export function LayerPanel() {
                   </div>
                 );
               })}
-          </div>
+            </CollapsibleContent>
+          </Collapsible>
         );
       })}
     </div>
   );
 }
-
-const headerRowStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: '0 8px 6px',
-};
-
-const showAllBtnStyle: React.CSSProperties = {
-  fontSize: 10,
-  color: '#9ca3af',
-  background: 'none',
-  border: 'none',
-  cursor: 'pointer',
-  padding: 0,
-};
-
-const disciplineRowStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  padding: '3px 8px',
-};
-
-const expandBtnStyle: React.CSSProperties = {
-  background: 'none',
-  border: 'none',
-  color: '#9ca3af',
-  cursor: 'pointer',
-  fontSize: 8,
-  padding: '0 4px 0 0',
-  width: 16,
-};
-
-const typeRowStyle: React.CSSProperties = {
-  padding: '2px 8px 2px 28px',
-};
-
-const labelStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: 6,
-  fontSize: 12,
-  color: '#d1d5db',
-  cursor: 'pointer',
-};
-
-const checkboxStyle: React.CSSProperties = {
-  margin: 0,
-  accentColor: '#4fc3f7',
-};
