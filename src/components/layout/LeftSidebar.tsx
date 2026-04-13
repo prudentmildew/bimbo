@@ -1,4 +1,5 @@
 import { Link, useLocation } from '@tanstack/react-router';
+import { LayerPanel } from '../sidebar/LayerPanel';
 
 const modules = [
   { path: '/viewer', label: '3D Viewer', registered: true },
@@ -27,6 +28,8 @@ export function LeftSidebar() {
       </div>
 
       <nav style={{ flex: 1, overflowY: 'auto', padding: 8 }}>
+        <LayerPanel />
+        <div style={{ borderBottom: '1px solid #374151', margin: '8px 0' }} />
         <p
           style={{
             margin: '0 0 4px',
