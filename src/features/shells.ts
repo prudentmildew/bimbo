@@ -1,18 +1,18 @@
 // Empty store slices for shell modules — ready for future implementation.
 // Each slice will be composed into the main store when the module is built.
 
-export type TwoDViewsSlice = {};
+export type TwoDViewsSlice = Record<string, never>;
 
-export type ChecklistsSlice = {};
+export type ChecklistsSlice = Record<string, never>;
 
-export type CaptureSlice = {};
+export type CaptureSlice = Record<string, never>;
 
-export type DocumentsSlice = {};
+export type DocumentsSlice = Record<string, never>;
 
-export type UsersSlice = {};
+export type UsersSlice = Record<string, never>;
 
-export type ReportsSlice = {};
+export type ReportsSlice = Record<string, never>;
 
-export type TaktSlice = {};
+export type TaktSlice = Record<string, never>;
 
-export type DiarySlice = {};
+export type DiarySlice = Record<string, never>;
