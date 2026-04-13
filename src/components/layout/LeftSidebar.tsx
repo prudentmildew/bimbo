@@ -1,4 +1,5 @@
 import { Link, useLocation } from '@tanstack/react-router';
+import { ClipControls } from '../sidebar/ClipControls';
 import { LayerPanel } from '../sidebar/LayerPanel';
 
 const modules = [
@@ -29,6 +30,8 @@ export function LeftSidebar() {
 
       <nav style={{ flex: 1, overflowY: 'auto', padding: 8 }}>
         <LayerPanel />
+        <div style={{ borderBottom: '1px solid #374151', margin: '8px 0' }} />
+        <ClipControls />
         <div style={{ borderBottom: '1px solid #374151', margin: '8px 0' }} />
         <p
           style={{
