@@ -1,9 +1,12 @@
 import { useEffect, useMemo } from 'react';
+import type { Group } from 'three';
 import { useAppStore } from '../../store';
 import { BimMesh } from './BimMesh';
 
 export function SceneContent() {
   const objects = useAppStore((s) => s.objects);
+  const modelSource = useAppStore((s) => s.modelSource);
+  const gltfScene = useAppStore((s) => s.gltfScene) as Group | null;
   const loadProceduralModel = useAppStore((s) => s.loadProceduralModel);
   const isObjectVisible = useAppStore((s) => s.isObjectVisible);
 
@@ -17,6 +20,10 @@ export function SceneContent() {
     () => objects.filter(isObjectVisible),
     [objects, isObjectVisible],
   );
+
+  if (modelSource === 'gltf' && gltfScene) {
+    return <primitive object={gltfScene} />;
+  }
 
   return (
     <>

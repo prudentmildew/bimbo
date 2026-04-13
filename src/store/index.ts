@@ -7,7 +7,9 @@ export interface AppState {
   objects: BimObject[];
   modelSource: 'procedural' | 'gltf' | null;
   isLoading: boolean;
+  gltfScene: object | null;
   loadProceduralModel: () => void;
+  loadGltfObjects: (objects: BimObject[], scene: object) => void;
   getObjectById: (id: string) => BimObject | undefined;
 
   // Viewer
@@ -49,9 +51,25 @@ export function createAppStore() {
     objects: [],
     modelSource: null,
     isLoading: false,
+    gltfScene: null,
     loadProceduralModel: () => {
       const objects = generateProceduralBuilding();
-      set({ objects, modelSource: 'procedural', isLoading: false });
+      set({
+        objects,
+        modelSource: 'procedural',
+        isLoading: false,
+        gltfScene: null,
+        selectedObjectId: null,
+      });
+    },
+    loadGltfObjects: (objects, scene) => {
+      set({
+        objects,
+        modelSource: 'gltf',
+        isLoading: false,
+        gltfScene: scene,
+        selectedObjectId: null,
+      });
     },
     getObjectById: (id) => get().objects.find((o) => o.id === id),
 
