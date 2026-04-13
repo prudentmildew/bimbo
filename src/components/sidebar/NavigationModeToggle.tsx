@@ -1,4 +1,4 @@
-import type * as React from 'react';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useAppStore } from '../../store';
 
 export function NavigationModeToggle() {
@@ -6,37 +6,38 @@ export function NavigationModeToggle() {
   const setNavigationMode = useAppStore((s) => s.setNavigationMode);
 
   return (
-    <div style={{ padding: '8px 0' }}>
-      <div style={headerRowStyle}>
-        <span style={headerLabelStyle}>Navigation</span>
+    <div className="py-2">
+      <div className="flex items-center px-2 pb-1.5">
+        <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+          Navigation
+        </span>
       </div>
-      <div style={{ display: 'flex', gap: 2, padding: '0 8px' }}>
-        <button
-          type="button"
-          onClick={() => setNavigationMode('orbit')}
-          style={{
-            ...btnStyle,
-            background: navigationMode === 'orbit' ? '#4fc3f7' : '#374151',
-            color: navigationMode === 'orbit' ? '#000' : '#d1d5db',
+      <div className="px-2">
+        <ToggleGroup
+          type="single"
+          value={navigationMode}
+          onValueChange={(value) => {
+            if (value) setNavigationMode(value as 'orbit' | 'first-person');
           }}
+          size="sm"
+          className="w-full gap-0.5"
         >
-          Orbit
-        </button>
-        <button
-          type="button"
-          onClick={() => setNavigationMode('first-person')}
-          style={{
-            ...btnStyle,
-            background:
-              navigationMode === 'first-person' ? '#4fc3f7' : '#374151',
-            color: navigationMode === 'first-person' ? '#000' : '#d1d5db',
-          }}
-        >
-          First-Person
-        </button>
+          <ToggleGroupItem
+            value="orbit"
+            className="flex-1 h-7 text-[11px] font-semibold data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+          >
+            Orbit
+          </ToggleGroupItem>
+          <ToggleGroupItem
+            value="first-person"
+            className="flex-1 h-7 text-[11px] font-semibold data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+          >
+            First-Person
+          </ToggleGroupItem>
+        </ToggleGroup>
       </div>
       {navigationMode === 'first-person' && (
-        <p style={hintStyle}>
+        <p className="mx-2 mt-1.5 text-[10px] text-muted-foreground leading-snug">
           Click canvas to lock. WASD/arrows to move. R/F up/down. Shift = fast.
           Esc to unlock.
         </p>
@@ -44,34 +45,3 @@ export function NavigationModeToggle() {
     </div>
   );
 }
-
-const headerRowStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  padding: '0 8px 6px',
-};
-
-const headerLabelStyle: React.CSSProperties = {
-  fontSize: 10,
-  fontWeight: 600,
-  textTransform: 'uppercase',
-  letterSpacing: 1,
-  color: '#6b7280',
-};
-
-const btnStyle: React.CSSProperties = {
-  flex: 1,
-  border: 'none',
-  borderRadius: 3,
-  padding: '4px 0',
-  fontSize: 11,
-  fontWeight: 600,
-  cursor: 'pointer',
-};
-
-const hintStyle: React.CSSProperties = {
-  margin: '6px 8px 0',
-  fontSize: 10,
-  color: '#6b7280',
-  lineHeight: 1.4,
-};

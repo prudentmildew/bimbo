@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Collapsible,
   CollapsibleContent,
@@ -78,15 +79,14 @@ export function LayerPanel() {
               <span
                 className={`inline-block w-2 h-2 rounded-full mr-1.5 ${DISCIPLINE_COLORS[discipline]}`}
               />
-              <label className="flex items-center gap-1.5 text-xs text-foreground/80 cursor-pointer">
-                <input
-                  type="checkbox"
+              <div className="flex items-center gap-1.5 text-xs text-foreground/80 cursor-pointer">
+                <Checkbox
                   checked={isVisible}
-                  onChange={() => toggleDiscipline(discipline)}
-                  className="m-0 accent-primary"
+                  onCheckedChange={() => toggleDiscipline(discipline)}
+                  className="h-3.5 w-3.5"
                 />
-                {DISCIPLINE_LABELS[discipline]}
-              </label>
+                <span>{DISCIPLINE_LABELS[discipline]}</span>
+              </div>
             </div>
 
             <CollapsibleContent>
@@ -94,13 +94,12 @@ export function LayerPanel() {
                 const typeVisible = typeVisibility[ifcType] ?? true;
                 return (
                   <div key={ifcType} className="py-0.5 px-2 pl-7">
-                    <label className="flex items-center gap-1.5 text-xs cursor-pointer">
-                      <input
-                        type="checkbox"
+                    <div className="flex items-center gap-1.5 text-xs cursor-pointer">
+                      <Checkbox
                         checked={typeVisible && isVisible}
                         disabled={!isVisible}
-                        onChange={() => toggleType(ifcType)}
-                        className="m-0 accent-primary"
+                        onCheckedChange={() => toggleType(ifcType)}
+                        className="h-3.5 w-3.5"
                       />
                       <span
                         className={
@@ -111,7 +110,7 @@ export function LayerPanel() {
                       >
                         {ifcType}
                       </span>
-                    </label>
+                    </div>
                   </div>
                 );
               })}
