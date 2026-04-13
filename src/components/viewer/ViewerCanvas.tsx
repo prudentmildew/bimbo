@@ -61,25 +61,23 @@ export function ViewerCanvas() {
 
   return (
     <div
-      style={{ position: 'relative', width: '100%', height: '100%' }}
+      className="relative w-full h-full"
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
       {dragging && (
-        <div style={dropOverlayStyle}>
-          <p style={{ fontSize: 18, fontWeight: 600 }}>
-            Drop .glTF / .glb file
-          </p>
+        <div className="absolute inset-0 z-20 flex items-center justify-center rounded-lg border-2 border-dashed border-primary bg-primary/15 text-primary pointer-events-none">
+          <p className="text-lg font-semibold">Drop .glTF / .glb file</p>
         </div>
       )}
       {error && (
-        <div style={errorStyle}>
+        <div className="absolute top-2 right-2 z-20 flex items-center gap-2 rounded bg-destructive/80 text-destructive-foreground px-3 py-1.5 text-xs">
           {error}
           <button
             type="button"
             onClick={() => setError(null)}
-            style={errorCloseStyle}
+            className="bg-transparent border-none text-destructive-foreground cursor-pointer text-xs"
           >
             x
           </button>
@@ -87,7 +85,7 @@ export function ViewerCanvas() {
       )}
       <Canvas
         camera={{ position: [30, 20, 30], fov: 50 }}
-        style={{ width: '100%', height: '100%' }}
+        className="w-full h-full"
         gl={{ localClippingEnabled: true }}
       >
         <ambientLight intensity={0.4} />
@@ -102,40 +100,3 @@ export function ViewerCanvas() {
     </div>
   );
 }
-
-const dropOverlayStyle: React.CSSProperties = {
-  position: 'absolute',
-  inset: 0,
-  zIndex: 20,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  background: 'rgba(79, 195, 247, 0.15)',
-  border: '2px dashed #4fc3f7',
-  borderRadius: 8,
-  color: '#4fc3f7',
-  pointerEvents: 'none',
-};
-
-const errorStyle: React.CSSProperties = {
-  position: 'absolute',
-  top: 8,
-  right: 8,
-  zIndex: 20,
-  background: '#991b1b',
-  color: '#fecaca',
-  padding: '6px 12px',
-  borderRadius: 4,
-  fontSize: 12,
-  display: 'flex',
-  alignItems: 'center',
-  gap: 8,
-};
-
-const errorCloseStyle: React.CSSProperties = {
-  background: 'none',
-  border: 'none',
-  color: '#fecaca',
-  cursor: 'pointer',
-  fontSize: 12,
-};
