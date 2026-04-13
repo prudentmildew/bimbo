@@ -1,6 +1,6 @@
-import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useAppStore } from '../../store';
+import { CameraRig } from './CameraRig';
 import { ClipPlaneHelper } from './ClipPlaneHelper';
 import { SceneContent } from './SceneContent';
 
@@ -28,7 +28,7 @@ export function ViewerCanvas() {
       <ambientLight intensity={0.4} />
       <directionalLight position={[10, 20, 10]} intensity={0.8} />
       <directionalLight position={[-10, 10, -10]} intensity={0.3} />
-      <OrbitControls target={[0, 4.5, 0]} enableDamping dampingFactor={0.1} />
+      <CameraRig />
       <DeselectPlane />
       <ClipPlaneHelper />
       <SceneContent />

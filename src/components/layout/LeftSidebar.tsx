@@ -1,6 +1,7 @@
 import { Link, useLocation } from '@tanstack/react-router';
 import { ClipControls } from '../sidebar/ClipControls';
 import { LayerPanel } from '../sidebar/LayerPanel';
+import { NavigationModeToggle } from '../sidebar/NavigationModeToggle';
 
 const modules = [
   { path: '/viewer', label: '3D Viewer', registered: true },
@@ -32,6 +33,8 @@ export function LeftSidebar() {
         <LayerPanel />
         <div style={{ borderBottom: '1px solid #374151', margin: '8px 0' }} />
         <ClipControls />
+        <div style={{ borderBottom: '1px solid #374151', margin: '8px 0' }} />
+        <NavigationModeToggle />
         <div style={{ borderBottom: '1px solid #374151', margin: '8px 0' }} />
         <p
           style={{
