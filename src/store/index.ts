@@ -99,8 +99,8 @@ export function createAppStore() {
     isObjectVisible: (obj) => {
       const state = get();
       if (!state.disciplineVisibility[obj.discipline]) return false;
-      if (!(state.typeVisibility[obj.ifcType] ?? true)) return false;
-      return true;
+      return state.typeVisibility[obj.ifcType] ?? true;
+
     },
 
     // Layout
