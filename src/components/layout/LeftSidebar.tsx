@@ -1,4 +1,5 @@
 import { Link, useLocation } from '@tanstack/react-router';
+import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { ClipControls } from '../sidebar/ClipControls';
@@ -6,15 +7,15 @@ import { LayerPanel } from '../sidebar/LayerPanel';
 import { NavigationModeToggle } from '../sidebar/NavigationModeToggle';
 
 const modules = [
-  { path: '/viewer', label: '3D Viewer' },
-  { path: '/2d-views', label: '2D Views' },
-  { path: '/checklists', label: 'Checklists' },
-  { path: '/capture', label: 'Capture' },
-  { path: '/documents', label: 'Documents' },
-  { path: '/users', label: 'Users' },
-  { path: '/reports', label: 'Reports' },
-  { path: '/takt', label: 'Takt Planning' },
-  { path: '/diary', label: 'Project Diary' },
+  { path: '/viewer', label: '3D Viewer', shell: false },
+  { path: '/2d-views', label: '2D Views', shell: true },
+  { path: '/checklists', label: 'Checklists', shell: true },
+  { path: '/capture', label: 'Capture', shell: true },
+  { path: '/documents', label: 'Documents', shell: true },
+  { path: '/users', label: 'Users', shell: true },
+  { path: '/reports', label: 'Reports', shell: true },
+  { path: '/takt', label: 'Takt Planning', shell: true },
+  { path: '/diary', label: 'Project Diary', shell: true },
 ] as const;
 
 export function LeftSidebar() {
@@ -46,13 +47,21 @@ export function LeftSidebar() {
               <Link
                 key={m.path}
                 to={m.path}
-                className={`flex items-center gap-2 rounded px-2 py-1.5 text-[13px] no-underline ${
+                className={`flex items-center justify-between rounded px-2 py-1.5 text-[13px] no-underline ${
                   isActive
                     ? 'bg-secondary text-foreground'
                     : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {m.label}
+                {m.shell && (
+                  <Badge
+                    variant="secondary"
+                    className="h-4 px-1 text-[9px] font-mono text-muted-foreground"
+                  >
+                    soon
+                  </Badge>
+                )}
               </Link>
             );
           })}

@@ -1,5 +1,5 @@
-import type * as React from 'react';
 import type { ReactNode } from 'react';
+import { Button } from '@/components/ui/button';
 import { useAppStore } from '../../store';
 import { LeftSidebar } from './LeftSidebar';
 import { RightPanel } from './RightPanel';
@@ -11,58 +11,32 @@ export function AppShell({ children }: { children: ReactNode }) {
   const toggleRightPanel = useAppStore((s) => s.toggleRightPanel);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        height: '100vh',
-        width: '100vw',
-        overflow: 'hidden',
-        background: '#111827',
-        color: '#f3f4f6',
-      }}
-    >
+    <div className="flex h-screen w-screen overflow-hidden bg-background text-foreground">
       {leftSidebarOpen && <LeftSidebar />}
 
-      <div
-        style={{
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          flex: 1,
-          minWidth: 0,
-        }}
-      >
-        <div
-          style={{
-            position: 'absolute',
-            top: 8,
-            left: 8,
-            zIndex: 10,
-            display: 'flex',
-            gap: 4,
-          }}
-        >
-          <button type="button" onClick={toggleLeftSidebar} style={buttonStyle}>
+      <div className="relative flex flex-col flex-1 min-w-0">
+        <div className="absolute top-2 left-2 z-10 flex gap-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={toggleLeftSidebar}
+            className="h-7 px-2 text-xs bg-card/80 backdrop-blur-sm border border-border hover:bg-secondary"
+          >
             {leftSidebarOpen ? '\u25C0' : '\u25B6'} Sidebar
-          </button>
-          <button type="button" onClick={toggleRightPanel} style={buttonStyle}>
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={toggleRightPanel}
+            className="h-7 px-2 text-xs bg-card/80 backdrop-blur-sm border border-border hover:bg-secondary"
+          >
             Panel {rightPanelOpen ? '\u25B6' : '\u25C0'}
-          </button>
+          </Button>
         </div>
-        <div style={{ flex: 1 }}>{children}</div>
+        <div className="flex-1">{children}</div>
       </div>
 
       {rightPanelOpen && <RightPanel />}
     </div>
   );
 }
-
-const buttonStyle: React.CSSProperties = {
-  padding: '4px 8px',
-  fontSize: 12,
-  background: 'rgba(31, 41, 55, 0.8)',
-  color: '#d1d5db',
-  border: 'none',
-  borderRadius: 4,
-  cursor: 'pointer',
-};

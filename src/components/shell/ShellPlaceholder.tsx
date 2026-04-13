@@ -1,4 +1,4 @@
-import type * as React from 'react';
+import { Badge } from '@/components/ui/badge';
 
 interface ShellPlaceholderProps {
   title: string;
@@ -10,51 +10,19 @@ export function ShellPlaceholder({
   description,
 }: ShellPlaceholderProps) {
   return (
-    <div style={containerStyle}>
-      <div style={cardStyle}>
-        <h2 style={titleStyle}>{title}</h2>
-        <p style={descStyle}>{description}</p>
-        <div style={badgeStyle}>Coming Soon</div>
+    <div className="flex items-center justify-center w-full h-full bg-background">
+      <div className="text-center max-w-[400px] p-8">
+        <h2 className="m-0 mb-2 text-2xl font-bold text-foreground">{title}</h2>
+        <p className="m-0 mb-4 text-sm text-muted-foreground leading-relaxed">
+          {description}
+        </p>
+        <Badge
+          variant="secondary"
+          className="font-mono text-xs text-muted-foreground"
+        >
+          Coming Soon
+        </Badge>
       </div>
     </div>
   );
 }
-
-const containerStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '100%',
-  height: '100%',
-  background: '#111827',
-};
-
-const cardStyle: React.CSSProperties = {
-  textAlign: 'center',
-  maxWidth: 400,
-  padding: 32,
-};
-
-const titleStyle: React.CSSProperties = {
-  margin: '0 0 8px',
-  fontSize: 24,
-  fontWeight: 700,
-  color: '#fff',
-};
-
-const descStyle: React.CSSProperties = {
-  margin: '0 0 16px',
-  fontSize: 14,
-  color: '#9ca3af',
-  lineHeight: 1.5,
-};
-
-const badgeStyle: React.CSSProperties = {
-  display: 'inline-block',
-  padding: '4px 12px',
-  borderRadius: 12,
-  background: '#374151',
-  color: '#6b7280',
-  fontSize: 12,
-  fontWeight: 600,
-};
