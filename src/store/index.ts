@@ -74,19 +74,35 @@ export function createAppStore() {
     },
     typeVisibility: {},
     toggleDiscipline: (discipline) =>
-      set((s) => ({
-        disciplineVisibility: {
+      set((s) => {
+        const newVis = {
           ...s.disciplineVisibility,
           [discipline]: !s.disciplineVisibility[discipline],
-        },
-      })),
+        };
+        const selected = s.selectedObjectId
+          ? s.objects.find((o) => o.id === s.selectedObjectId)
+          : null;
+        const shouldClear = selected && !newVis[selected.discipline];
+        return {
+          disciplineVisibility: newVis,
+          ...(shouldClear ? { selectedObjectId: null } : {}),
+        };
+      }),
     toggleType: (ifcType) =>
-      set((s) => ({
-        typeVisibility: {
+      set((s) => {
+        const newTypeVis = {
           ...s.typeVisibility,
           [ifcType]: !(s.typeVisibility[ifcType] ?? true),
-        },
-      })),
+        };
+        const selected = s.selectedObjectId
+          ? s.objects.find((o) => o.id === s.selectedObjectId)
+          : null;
+        const shouldClear = selected && !(newTypeVis[selected.ifcType] ?? true);
+        return {
+          typeVisibility: newTypeVis,
+          ...(shouldClear ? { selectedObjectId: null } : {}),
+        };
+      }),
     setAllVisible: (visible) =>
       set({
         disciplineVisibility: {
@@ -100,7 +116,6 @@ export function createAppStore() {
       const state = get();
       if (!state.disciplineVisibility[obj.discipline]) return false;
       return state.typeVisibility[obj.ifcType] ?? true;
-
     },
 
     // Layout

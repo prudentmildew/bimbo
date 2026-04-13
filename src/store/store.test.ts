@@ -57,4 +57,71 @@ describe('appStore', () => {
     store.getState().selectObject(null);
     expect(store.getState().rightPanelOpen).toBe(true);
   });
+
+  it('clears selection when toggling off the selected object discipline', () => {
+    const store = createAppStore();
+    store.getState().loadProceduralModel();
+    // slab-0 is architectural
+    store.getState().selectObject('slab-0');
+    expect(store.getState().selectedObjectId).toBe('slab-0');
+
+    store.getState().toggleDiscipline('architectural');
+    expect(store.getState().selectedObjectId).toBeNull();
+  });
+
+  it('clears selection when toggling off the selected object type', () => {
+    const store = createAppStore();
+    store.getState().loadProceduralModel();
+    // slab-0 is IfcSlab
+    store.getState().selectObject('slab-0');
+    expect(store.getState().selectedObjectId).toBe('slab-0');
+
+    store.getState().toggleType('IfcSlab');
+    expect(store.getState().selectedObjectId).toBeNull();
+  });
+
+  it('does not clear selection when toggling unrelated discipline', () => {
+    const store = createAppStore();
+    store.getState().loadProceduralModel();
+    store.getState().selectObject('slab-0'); // architectural
+    store.getState().toggleDiscipline('mep');
+    expect(store.getState().selectedObjectId).toBe('slab-0');
+  });
+
+  it('isObjectVisible respects discipline toggle', () => {
+    const store = createAppStore();
+    store.getState().loadProceduralModel();
+    const slab = store.getState().objects.find((o) => o.id === 'slab-0')!;
+
+    expect(store.getState().isObjectVisible(slab)).toBe(true);
+    store.getState().toggleDiscipline('architectural');
+    expect(store.getState().isObjectVisible(slab)).toBe(false);
+    store.getState().toggleDiscipline('architectural');
+    expect(store.getState().isObjectVisible(slab)).toBe(true);
+  });
+
+  it('isObjectVisible respects type toggle', () => {
+    const store = createAppStore();
+    store.getState().loadProceduralModel();
+    const slab = store.getState().objects.find((o) => o.id === 'slab-0')!;
+
+    store.getState().toggleType('IfcSlab');
+    expect(store.getState().isObjectVisible(slab)).toBe(false);
+    store.getState().toggleType('IfcSlab');
+    expect(store.getState().isObjectVisible(slab)).toBe(true);
+  });
+
+  it('setAllVisible resets all layers', () => {
+    const store = createAppStore();
+    store.getState().loadProceduralModel();
+    store.getState().toggleDiscipline('architectural');
+    store.getState().toggleType('IfcBeam');
+
+    store.getState().setAllVisible(true);
+    const state = store.getState();
+    expect(state.disciplineVisibility.architectural).toBe(true);
+    expect(state.disciplineVisibility.structural).toBe(true);
+    expect(state.disciplineVisibility.mep).toBe(true);
+    expect(state.typeVisibility).toEqual({});
+  });
 });
