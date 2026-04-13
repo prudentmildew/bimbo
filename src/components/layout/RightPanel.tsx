@@ -1,3 +1,5 @@
+import { ObjectProperties } from '../properties/ObjectProperties';
+
 export function RightPanel() {
   return (
     <aside style={panelStyle}>
@@ -6,19 +8,7 @@ export function RightPanel() {
           Properties
         </h2>
       </div>
-      <div
-        style={{
-          flex: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 16,
-        }}
-      >
-        <p style={{ textAlign: 'center', fontSize: 12, color: '#6b7280' }}>
-          Select an object to view properties
-        </p>
-      </div>
+      <ObjectProperties />
     </aside>
   );
 }
