@@ -1,3 +1,5 @@
+import type * as React from 'react';
+
 interface ShellPlaceholderProps {
   title: string;
   description: string;

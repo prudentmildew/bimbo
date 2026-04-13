@@ -1,3 +1,4 @@
+import type * as React from 'react';
 import { useMemo, useState } from 'react';
 import type { Discipline } from '../../lib/model/types';
 import { useAppStore } from '../../store';

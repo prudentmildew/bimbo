@@ -1,3 +1,4 @@
+import type * as React from 'react';
 import type { ReactNode } from 'react';
 import { useAppStore } from '../../store';
 import { LeftSidebar } from './LeftSidebar';

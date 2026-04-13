@@ -1,4 +1,5 @@
 import { Link, useLocation } from '@tanstack/react-router';
+import type * as React from 'react';
 import { ClipControls } from '../sidebar/ClipControls';
 import { LayerPanel } from '../sidebar/LayerPanel';
 import { NavigationModeToggle } from '../sidebar/NavigationModeToggle';

@@ -1,3 +1,4 @@
+import type * as React from 'react';
 import { useAppStore } from '../../store';
 
 const AXES = ['x', 'y', 'z'] as const;
