@@ -23,6 +23,8 @@ export interface AppState {
   setNavigationMode: (mode: 'orbit' | 'first-person') => void;
   selectObject: (id: string | null) => void;
   setHoveredObject: (id: string | null) => void;
+  setClipPlane: (update: Partial<AppState['clipPlane']>) => void;
+  resetClipPlane: () => void;
 
   // Layers
   disciplineVisibility: Record<Discipline, boolean>;
@@ -65,6 +67,12 @@ export function createAppStore() {
         ...(id != null && !s.rightPanelOpen ? { rightPanelOpen: true } : {}),
       })),
     setHoveredObject: (id) => set({ hoveredObjectId: id }),
+    setClipPlane: (update) =>
+      set((s) => ({ clipPlane: { ...s.clipPlane, ...update } })),
+    resetClipPlane: () =>
+      set({
+        clipPlane: { enabled: false, axis: 'y', position: 0.5, flipped: false },
+      }),
 
     // Layers
     disciplineVisibility: {

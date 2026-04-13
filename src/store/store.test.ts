@@ -124,4 +124,27 @@ describe('appStore', () => {
     expect(state.disciplineVisibility.mep).toBe(true);
     expect(state.typeVisibility).toEqual({});
   });
+
+  it('updates clip plane state', () => {
+    const store = createAppStore();
+    store.getState().setClipPlane({ enabled: true, axis: 'x', position: 0.3 });
+    const clip = store.getState().clipPlane;
+    expect(clip.enabled).toBe(true);
+    expect(clip.axis).toBe('x');
+    expect(clip.position).toBe(0.3);
+    expect(clip.flipped).toBe(false); // unchanged default
+  });
+
+  it('resets clip plane to defaults', () => {
+    const store = createAppStore();
+    store
+      .getState()
+      .setClipPlane({ enabled: true, axis: 'z', position: 0.8, flipped: true });
+    store.getState().resetClipPlane();
+    const clip = store.getState().clipPlane;
+    expect(clip.enabled).toBe(false);
+    expect(clip.axis).toBe('y');
+    expect(clip.position).toBe(0.5);
+    expect(clip.flipped).toBe(false);
+  });
 });
