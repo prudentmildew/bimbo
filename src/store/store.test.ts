@@ -15,6 +15,20 @@ describe('appStore', () => {
     expect(state.modelSource).toBe('procedural');
   });
 
+  it('getObjectById returns the correct object', () => {
+    const store = createAppStore();
+    store.getState().loadProceduralModel();
+    const obj = store.getState().getObjectById('slab-0');
+    expect(obj).toBeDefined();
+    expect(obj?.name).toBe('Floor Slab 0');
+  });
+
+  it('getObjectById returns undefined for unknown id', () => {
+    const store = createAppStore();
+    store.getState().loadProceduralModel();
+    expect(store.getState().getObjectById('nonexistent')).toBeUndefined();
+  });
+
   it('exposes layout sidebar toggle', () => {
     const store = createAppStore();
     expect(store.getState().leftSidebarOpen).toBe(true);
