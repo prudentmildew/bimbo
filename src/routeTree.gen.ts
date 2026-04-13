@@ -10,11 +10,59 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ViewerRouteImport } from './routes/viewer'
+import { Route as UsersRouteImport } from './routes/users'
+import { Route as TaktRouteImport } from './routes/takt'
+import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as DocumentsRouteImport } from './routes/documents'
+import { Route as DiaryRouteImport } from './routes/diary'
+import { Route as ChecklistsRouteImport } from './routes/checklists'
+import { Route as CaptureRouteImport } from './routes/capture'
+import { Route as R2dViewsRouteImport } from './routes/2d-views'
 import { Route as IndexRouteImport } from './routes/index'
 
 const ViewerRoute = ViewerRouteImport.update({
   id: '/viewer',
   path: '/viewer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UsersRoute = UsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TaktRoute = TaktRouteImport.update({
+  id: '/takt',
+  path: '/takt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocumentsRoute = DocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiaryRoute = DiaryRouteImport.update({
+  id: '/diary',
+  path: '/diary',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChecklistsRoute = ChecklistsRouteImport.update({
+  id: '/checklists',
+  path: '/checklists',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CaptureRoute = CaptureRouteImport.update({
+  id: '/capture',
+  path: '/capture',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R2dViewsRoute = R2dViewsRouteImport.update({
+  id: '/2d-views',
+  path: '/2d-views',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +73,90 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/2d-views': typeof R2dViewsRoute
+  '/capture': typeof CaptureRoute
+  '/checklists': typeof ChecklistsRoute
+  '/diary': typeof DiaryRoute
+  '/documents': typeof DocumentsRoute
+  '/reports': typeof ReportsRoute
+  '/takt': typeof TaktRoute
+  '/users': typeof UsersRoute
   '/viewer': typeof ViewerRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/2d-views': typeof R2dViewsRoute
+  '/capture': typeof CaptureRoute
+  '/checklists': typeof ChecklistsRoute
+  '/diary': typeof DiaryRoute
+  '/documents': typeof DocumentsRoute
+  '/reports': typeof ReportsRoute
+  '/takt': typeof TaktRoute
+  '/users': typeof UsersRoute
   '/viewer': typeof ViewerRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/2d-views': typeof R2dViewsRoute
+  '/capture': typeof CaptureRoute
+  '/checklists': typeof ChecklistsRoute
+  '/diary': typeof DiaryRoute
+  '/documents': typeof DocumentsRoute
+  '/reports': typeof ReportsRoute
+  '/takt': typeof TaktRoute
+  '/users': typeof UsersRoute
   '/viewer': typeof ViewerRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/viewer'
+  fullPaths:
+    | '/'
+    | '/2d-views'
+    | '/capture'
+    | '/checklists'
+    | '/diary'
+    | '/documents'
+    | '/reports'
+    | '/takt'
+    | '/users'
+    | '/viewer'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/viewer'
-  id: '__root__' | '/' | '/viewer'
+  to:
+    | '/'
+    | '/2d-views'
+    | '/capture'
+    | '/checklists'
+    | '/diary'
+    | '/documents'
+    | '/reports'
+    | '/takt'
+    | '/users'
+    | '/viewer'
+  id:
+    | '__root__'
+    | '/'
+    | '/2d-views'
+    | '/capture'
+    | '/checklists'
+    | '/diary'
+    | '/documents'
+    | '/reports'
+    | '/takt'
+    | '/users'
+    | '/viewer'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  R2dViewsRoute: typeof R2dViewsRoute
+  CaptureRoute: typeof CaptureRoute
+  ChecklistsRoute: typeof ChecklistsRoute
+  DiaryRoute: typeof DiaryRoute
+  DocumentsRoute: typeof DocumentsRoute
+  ReportsRoute: typeof ReportsRoute
+  TaktRoute: typeof TaktRoute
+  UsersRoute: typeof UsersRoute
   ViewerRoute: typeof ViewerRoute
 }
 
@@ -56,6 +167,62 @@ declare module '@tanstack/react-router' {
       path: '/viewer'
       fullPath: '/viewer'
       preLoaderRoute: typeof ViewerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/users': {
+      id: '/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof UsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/takt': {
+      id: '/takt'
+      path: '/takt'
+      fullPath: '/takt'
+      preLoaderRoute: typeof TaktRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/documents': {
+      id: '/documents'
+      path: '/documents'
+      fullPath: '/documents'
+      preLoaderRoute: typeof DocumentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diary': {
+      id: '/diary'
+      path: '/diary'
+      fullPath: '/diary'
+      preLoaderRoute: typeof DiaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checklists': {
+      id: '/checklists'
+      path: '/checklists'
+      fullPath: '/checklists'
+      preLoaderRoute: typeof ChecklistsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/capture': {
+      id: '/capture'
+      path: '/capture'
+      fullPath: '/capture'
+      preLoaderRoute: typeof CaptureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/2d-views': {
+      id: '/2d-views'
+      path: '/2d-views'
+      fullPath: '/2d-views'
+      preLoaderRoute: typeof R2dViewsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,6 +237,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  R2dViewsRoute: R2dViewsRoute,
+  CaptureRoute: CaptureRoute,
+  ChecklistsRoute: ChecklistsRoute,
+  DiaryRoute: DiaryRoute,
+  DocumentsRoute: DocumentsRoute,
+  ReportsRoute: ReportsRoute,
+  TaktRoute: TaktRoute,
+  UsersRoute: UsersRoute,
   ViewerRoute: ViewerRoute,
 }
 export const routeTree = rootRouteImport

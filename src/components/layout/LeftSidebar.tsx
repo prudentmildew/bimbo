@@ -4,15 +4,15 @@ import { LayerPanel } from '../sidebar/LayerPanel';
 import { NavigationModeToggle } from '../sidebar/NavigationModeToggle';
 
 const modules = [
-  { path: '/viewer', label: '3D Viewer', registered: true },
-  { path: '/2d-views', label: '2D Views', registered: false },
-  { path: '/checklists', label: 'Checklists', registered: false },
-  { path: '/capture', label: 'Capture', registered: false },
-  { path: '/documents', label: 'Documents', registered: false },
-  { path: '/users', label: 'Users', registered: false },
-  { path: '/reports', label: 'Reports', registered: false },
-  { path: '/takt', label: 'Takt Planning', registered: false },
-  { path: '/diary', label: 'Project Diary', registered: false },
+  { path: '/viewer', label: '3D Viewer' },
+  { path: '/2d-views', label: '2D Views' },
+  { path: '/checklists', label: 'Checklists' },
+  { path: '/capture', label: 'Capture' },
+  { path: '/documents', label: 'Documents' },
+  { path: '/users', label: 'Users' },
+  { path: '/reports', label: 'Reports' },
+  { path: '/takt', label: 'Takt Planning' },
+  { path: '/diary', label: 'Project Diary' },
 ] as const;
 
 export function LeftSidebar() {
@@ -31,60 +31,27 @@ export function LeftSidebar() {
 
       <nav style={{ flex: 1, overflowY: 'auto', padding: 8 }}>
         <LayerPanel />
-        <div style={{ borderBottom: '1px solid #374151', margin: '8px 0' }} />
+        <div style={dividerStyle} />
         <ClipControls />
-        <div style={{ borderBottom: '1px solid #374151', margin: '8px 0' }} />
+        <div style={dividerStyle} />
         <NavigationModeToggle />
-        <div style={{ borderBottom: '1px solid #374151', margin: '8px 0' }} />
-        <p
-          style={{
-            margin: '0 0 4px',
-            padding: '0 8px',
-            fontSize: 10,
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: 1,
-            color: '#6b7280',
-          }}
-        >
-          Modules
-        </p>
+        <div style={dividerStyle} />
+        <p style={sectionLabelStyle}>Modules</p>
         {modules.map((m) => {
           const isActive = location.pathname === m.path;
-
-          if (m.registered) {
-            return (
-              <Link
-                key={m.path}
-                to={m.path}
-                style={{
-                  ...navItemStyle,
-                  background: isActive ? '#374151' : 'transparent',
-                  color: isActive ? '#fff' : '#d1d5db',
-                  textDecoration: 'none',
-                }}
-              >
-                {m.label}
-              </Link>
-            );
-          }
-
           return (
-            <span
+            <Link
               key={m.path}
+              to={m.path}
               style={{
                 ...navItemStyle,
-                color: '#6b7280',
-                cursor: 'not-allowed',
+                background: isActive ? '#374151' : 'transparent',
+                color: isActive ? '#fff' : '#d1d5db',
+                textDecoration: 'none',
               }}
             >
               {m.label}
-              <span
-                style={{ marginLeft: 'auto', fontSize: 10, color: '#4b5563' }}
-              >
-                soon
-              </span>
-            </span>
+            </Link>
           );
         })}
       </nav>
@@ -104,6 +71,21 @@ const sidebarStyle: React.CSSProperties = {
 const headerStyle: React.CSSProperties = {
   padding: 12,
   borderBottom: '1px solid #374151',
+};
+
+const dividerStyle: React.CSSProperties = {
+  borderBottom: '1px solid #374151',
+  margin: '8px 0',
+};
+
+const sectionLabelStyle: React.CSSProperties = {
+  margin: '0 0 4px',
+  padding: '0 8px',
+  fontSize: 10,
+  fontWeight: 600,
+  textTransform: 'uppercase',
+  letterSpacing: 1,
+  color: '#6b7280',
 };
 
 const navItemStyle: React.CSSProperties = {
