@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/badge';
 import { useAppStore } from '../../store';
 
 export function ObjectProperties() {
@@ -6,8 +7,8 @@ export function ObjectProperties() {
 
   if (!selectedObjectId) {
     return (
-      <div style={emptyStyle}>
-        <p style={{ margin: 0, fontSize: 12, color: '#6b7280' }}>
+      <div className="flex-1 flex items-center justify-center p-4">
+        <p className="m-0 text-xs text-muted-foreground">
           Select an object to view properties
         </p>
       </div>
@@ -17,10 +18,8 @@ export function ObjectProperties() {
   const obj = getObjectById(selectedObjectId);
   if (!obj) {
     return (
-      <div style={emptyStyle}>
-        <p style={{ margin: 0, fontSize: 12, color: '#6b7280' }}>
-          Object not found
-        </p>
+      <div className="flex-1 flex items-center justify-center p-4">
+        <p className="m-0 text-xs text-muted-foreground">Object not found</p>
       </div>
     );
   }
@@ -41,66 +40,34 @@ export function ObjectProperties() {
   );
 
   return (
-    <div style={{ padding: 12 }}>
-      <h3 style={nameStyle}>{obj.name}</h3>
-      <p style={typeTagStyle}>{obj.ifcType}</p>
+    <div className="p-3">
+      <h3 className="m-0 mb-1 text-sm font-semibold text-foreground">
+        {obj.name}
+      </h3>
+      <Badge className="mb-3 bg-primary/10 text-primary border-primary/20 font-mono text-[11px]">
+        {obj.ifcType}
+      </Badge>
 
-      <table style={tableStyle}>
-        <tbody>
-          {rows.map(([label, value]) => (
-            <tr key={label}>
-              <td style={labelCellStyle}>{label}</td>
-              <td style={valueCellStyle}>{value}</td>
-            </tr>
-          ))}
-          {extraProps.map(([key, value]) => (
-            <tr key={key}>
-              <td style={labelCellStyle}>{key}</td>
-              <td style={valueCellStyle}>{String(value)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="space-y-0">
+        {rows.map(([label, value]) => (
+          <div
+            key={label}
+            className="flex py-1 border-b border-[#1a1a1e] font-mono text-xs"
+          >
+            <span className="w-[40%] shrink-0 text-[#52525b]">{label}</span>
+            <span className="text-[#d4d4d8]">{value}</span>
+          </div>
+        ))}
+        {extraProps.map(([key, value]) => (
+          <div
+            key={key}
+            className="flex py-1 border-b border-[#1a1a1e] font-mono text-xs"
+          >
+            <span className="w-[40%] shrink-0 text-[#52525b]">{key}</span>
+            <span className="text-[#d4d4d8]">{String(value)}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
-
-const emptyStyle: React.CSSProperties = {
-  flex: 1,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: 16,
-};
-
-const nameStyle: React.CSSProperties = {
-  margin: '0 0 4px',
-  fontSize: 14,
-  fontWeight: 600,
-  color: '#fff',
-};
-
-const typeTagStyle: React.CSSProperties = {
-  margin: '0 0 12px',
-  fontSize: 11,
-  color: '#4fc3f7',
-};
-
-const tableStyle: React.CSSProperties = {
-  width: '100%',
-  borderCollapse: 'collapse',
-  fontSize: 12,
-};
-
-const labelCellStyle: React.CSSProperties = {
-  padding: '4px 0',
-  color: '#9ca3af',
-  verticalAlign: 'top',
-  width: '40%',
-};
-
-const valueCellStyle: React.CSSProperties = {
-  padding: '4px 0',
-  color: '#e5e7eb',
-  verticalAlign: 'top',
-};
