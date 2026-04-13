@@ -30,4 +30,31 @@ describe('appStore', () => {
     store.getState().toggleRightPanel();
     expect(store.getState().rightPanelOpen).toBe(false);
   });
+
+  it('auto-opens right panel when an object is selected', () => {
+    const store = createAppStore();
+    store.getState().toggleRightPanel(); // close it
+    expect(store.getState().rightPanelOpen).toBe(false);
+
+    store.getState().selectObject('slab-0');
+    expect(store.getState().selectedObjectId).toBe('slab-0');
+    expect(store.getState().rightPanelOpen).toBe(true);
+  });
+
+  it('clears selection when selecting null', () => {
+    const store = createAppStore();
+    store.getState().selectObject('slab-0');
+    expect(store.getState().selectedObjectId).toBe('slab-0');
+
+    store.getState().selectObject(null);
+    expect(store.getState().selectedObjectId).toBeNull();
+  });
+
+  it('does not close right panel when deselecting', () => {
+    const store = createAppStore();
+    expect(store.getState().rightPanelOpen).toBe(true);
+    store.getState().selectObject('slab-0');
+    store.getState().selectObject(null);
+    expect(store.getState().rightPanelOpen).toBe(true);
+  });
 });

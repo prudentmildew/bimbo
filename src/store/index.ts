@@ -59,7 +59,11 @@ export function createAppStore() {
     hoveredObjectId: null,
     clipPlane: { enabled: false, axis: 'y', position: 0.5, flipped: false },
     setNavigationMode: (mode) => set({ navigationMode: mode }),
-    selectObject: (id) => set({ selectedObjectId: id }),
+    selectObject: (id) =>
+      set((s) => ({
+        selectedObjectId: id,
+        ...(id != null && !s.rightPanelOpen ? { rightPanelOpen: true } : {}),
+      })),
     setHoveredObject: (id) => set({ hoveredObjectId: id }),
 
     // Layers
