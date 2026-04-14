@@ -13,7 +13,7 @@ const modules = [
   { path: '/checklists', label: 'Checklists', shell: true },
   { path: '/capture', label: 'Capture', shell: true },
   { path: '/documents', label: 'Documents', shell: true },
-  { path: '/users', label: 'Users', shell: true },
+  { path: '/users', label: 'Users', shell: false },
   { path: '/reports', label: 'Reports', shell: true },
   { path: '/takt', label: 'Takt Planning', shell: true },
   { path: '/diary', label: 'Project Diary', shell: true },
