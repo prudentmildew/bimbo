@@ -773,6 +773,279 @@ table {
   background: var(--border-prominent);
 }
 
+/* --- Checkbox --- */
+
+.checkbox {
+  display: grid;
+  place-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  border: 1px solid var(--border-prominent);
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 0;
+}
+
+.checkbox.checked {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--bg-deepest);
+}
+
+.checkbox:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.checkbox:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+.checkbox-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* --- Switch --- */
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  border: 2px solid transparent;
+  background: var(--border-default);
+  cursor: pointer;
+  padding: 0 2px;
+  transition: background 0.15s;
+}
+
+.switch.checked {
+  background: var(--brand);
+}
+
+.switch:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.switch:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+.switch-thumb {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  transition: transform 0.15s;
+  pointer-events: none;
+}
+
+.switch.checked .switch-thumb {
+  transform: translateX(20px);
+}
+
+/* --- Toggle / ToggleGroup --- */
+
+.toggle,
+.toggle-group-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  height: 40px;
+  padding: 0 var(--space-3);
+  min-width: 40px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: var(--text-nav);
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.toggle:hover,
+.toggle-group-item:hover {
+  background: var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.toggle.pressed,
+.toggle-group-item.pressed {
+  background: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.toggle-outline {
+  border-color: var(--border-default);
+}
+
+.toggle-sm,
+.toggle-group-item.toggle-sm {
+  height: 32px;
+  padding: 0 var(--space-2);
+  min-width: 32px;
+}
+
+.toggle-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-px);
+}
+
+.toggle:disabled,
+.toggle-group-item:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.toggle:focus-visible,
+.toggle-group-item:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+.toggle svg,
+.toggle-group-item svg {
+  pointer-events: none;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* --- Slider --- */
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: var(--border-default);
+  border-radius: var(--radius-pill);
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  border: 2px solid var(--brand);
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  border: 2px solid var(--brand);
+  cursor: pointer;
+}
+
+.slider:focus-visible {
+  box-shadow: var(--shadow-focus);
+}
+
+.slider:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- Tabs --- */
+
+.tabs-list {
+  display: inline-flex;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--border-subtle);
+  padding: var(--space-px);
+  color: var(--text-muted);
+}
+
+.tabs-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  padding: var(--space-1-5) var(--space-3);
+  border-radius: 4px;
+  font-size: var(--text-nav);
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+
+.tabs-trigger:hover {
+  color: var(--text-secondary);
+}
+
+.tabs-trigger.active {
+  background: var(--bg-page);
+  color: var(--text-primary);
+}
+
+.tabs-trigger:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+.tabs-trigger:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.tabs-content {
+  margin-top: var(--space-2);
+}
+
+.tabs-content:focus-visible {
+  outline: none;
+}
+
+/* --- Collapsible --- */
+
+.collapsible-trigger {
+  cursor: pointer;
+}
+
+.collapsible-content {
+  overflow: hidden;
+  animation: collapsible-open 0.15s ease-out;
+}
+
+@keyframes collapsible-open {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+  }
+}
+
 /* ==========================================================================
    6. Route/page-specific styles
    ========================================================================== */
