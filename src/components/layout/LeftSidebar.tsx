@@ -5,6 +5,7 @@ import { Separator } from '@/components/ui/separator';
 import { ClipControls } from '../sidebar/ClipControls';
 import { LayerPanel } from '../sidebar/LayerPanel';
 import { NavigationModeToggle } from '../sidebar/NavigationModeToggle';
+import { UserMenu } from '../sidebar/UserMenu';
 
 const modules = [
   { path: '/viewer', label: '3D Viewer', shell: false },
@@ -67,6 +68,10 @@ export function LeftSidebar() {
           })}
         </div>
       </ScrollArea>
+
+      <div className="border-t border-border p-2">
+        <UserMenu />
+      </div>
     </aside>
   );
 }
