@@ -59,37 +59,22 @@ export function UserMenu() {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button
-            type="button"
-            className="flex w-full items-center gap-2.5 rounded px-2 py-2 text-left hover:bg-secondary transition-colors"
-          >
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-semibold">
-              {initial}
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="m-0 truncate text-[13px] font-medium text-foreground">
-                {currentUser.firstName}
-              </p>
-              <Badge
-                variant="secondary"
-                className="mt-0.5 h-4 px-1 text-[9px] font-mono text-muted-foreground"
-              >
+          <button type="button" className="user-menu-trigger">
+            <div className="user-avatar">{initial}</div>
+            <div className="user-info">
+              <p className="user-name">{currentUser.firstName}</p>
+              <Badge variant="secondary" className="user-role-badge">
                 {roleLabel}
               </Badge>
             </div>
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent side="top" align="start" className="w-56">
-          <DropdownMenuLabel className="font-normal">
-            <div className="flex flex-col gap-1">
-              <p className="m-0 text-sm font-medium">{fullName}</p>
-              <p className="m-0 text-xs text-muted-foreground">
-                {currentUser.email}
-              </p>
-              <Badge
-                variant="outline"
-                className="mt-0.5 w-fit text-[10px] font-mono"
-              >
+        <DropdownMenuContent side="top" align="start" className="user-menu-content">
+          <DropdownMenuLabel className="user-menu-label">
+            <div className="user-menu-profile">
+              <p className="user-menu-fullname">{fullName}</p>
+              <p className="user-menu-email">{currentUser.email}</p>
+              <Badge variant="outline" className="user-menu-role-badge">
                 {roleLabel}
               </Badge>
             </div>
@@ -101,7 +86,7 @@ export function UserMenu() {
           </DropdownMenuItem>
           <DropdownMenuItem
             onSelect={() => setDeleteDialogOpen(true)}
-            className="text-destructive focus:text-destructive"
+            className="user-menu-danger"
           >
             <Trash2 />
             Delete Account

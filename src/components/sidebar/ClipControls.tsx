@@ -12,29 +12,24 @@ export function ClipControls() {
   const resetClipPlane = useAppStore((s) => s.resetClipPlane);
 
   return (
-    <div className="py-2">
-      <div className="flex items-center justify-between px-2 pb-1.5">
-        <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
-          Clip Plane
-        </span>
-        <div className="flex items-center gap-1.5">
-          <span className="text-[10px] text-muted-foreground">
+    <div className="sidebar-panel">
+      <div className="sidebar-panel-header">
+        <span className="mono-label">Clip Plane</span>
+        <div className="clip-toggle">
+          <span className="clip-toggle-label">
             {clipPlane.enabled ? 'On' : 'Off'}
           </span>
           <Switch
             checked={clipPlane.enabled}
             onCheckedChange={(enabled) => setClipPlane({ enabled })}
-            className="h-4 w-7 data-[state=checked]:bg-primary data-[state=unchecked]:bg-secondary [&_span]:h-3 [&_span]:w-3 [&_span]:data-[state=checked]:translate-x-3"
           />
         </div>
       </div>
 
       {clipPlane.enabled && (
-        <div className="px-2 space-y-2">
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] text-muted-foreground w-13 shrink-0">
-              Axis
-            </span>
+        <div className="clip-controls">
+          <div className="clip-row">
+            <span className="clip-label">Axis</span>
             <ToggleGroup
               type="single"
               value={clipPlane.axis}
@@ -42,43 +37,33 @@ export function ClipControls() {
                 if (value) setClipPlane({ axis: value as 'x' | 'y' | 'z' });
               }}
               size="sm"
-              className="gap-0.5"
             >
               {AXES.map((axis) => (
-                <ToggleGroupItem
-                  key={axis}
-                  value={axis}
-                  className="h-6 px-2 text-[11px] font-semibold data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
-                >
+                <ToggleGroupItem key={axis} value={axis}>
                   {axis.toUpperCase()}
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] text-muted-foreground w-13 shrink-0">
-              Position
-            </span>
+          <div className="clip-row">
+            <span className="clip-label">Position</span>
             <Slider
               min={0}
               max={1}
               step={0.01}
               value={[clipPlane.position]}
               onValueChange={([position]) => setClipPlane({ position })}
-              className="flex-1"
+              className="clip-slider"
             />
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] text-muted-foreground w-13 shrink-0">
-              Direction
-            </span>
+          <div className="clip-row">
+            <span className="clip-label">Direction</span>
             <Button
               variant="secondary"
               size="sm"
               onClick={() => setClipPlane({ flipped: !clipPlane.flipped })}
-              className="h-6 px-2 text-[11px]"
             >
               {clipPlane.flipped ? '\u21C5 Flipped' : '\u21C5 Normal'}
             </Button>
@@ -88,7 +73,7 @@ export function ClipControls() {
             variant="secondary"
             size="sm"
             onClick={resetClipPlane}
-            className="w-full h-7 text-[11px]"
+            className="clip-reset-btn"
           >
             Reset
           </Button>

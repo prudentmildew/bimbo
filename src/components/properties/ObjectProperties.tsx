@@ -7,8 +7,8 @@ export function ObjectProperties() {
 
   if (!selectedObjectId) {
     return (
-      <div className="flex-1 flex items-center justify-center p-4">
-        <p className="m-0 text-xs text-muted-foreground">
+      <div className="props-empty">
+        <p className="props-empty-text">
           Select an object to view properties
         </p>
       </div>
@@ -18,8 +18,8 @@ export function ObjectProperties() {
   const obj = getObjectById(selectedObjectId);
   if (!obj) {
     return (
-      <div className="flex-1 flex items-center justify-center p-4">
-        <p className="m-0 text-xs text-muted-foreground">Object not found</p>
+      <div className="props-empty">
+        <p className="props-empty-text">Object not found</p>
       </div>
     );
   }
@@ -40,31 +40,21 @@ export function ObjectProperties() {
   );
 
   return (
-    <div className="p-3">
-      <h3 className="m-0 mb-1 text-sm font-semibold text-foreground">
-        {obj.name}
-      </h3>
-      <Badge className="mb-3 bg-primary/10 text-primary border-primary/20 font-mono text-[11px]">
-        {obj.ifcType}
-      </Badge>
+    <div className="props-panel">
+      <h3 className="props-title">{obj.name}</h3>
+      <Badge className="props-type-badge">{obj.ifcType}</Badge>
 
-      <div className="space-y-0">
+      <div className="props-table">
         {rows.map(([label, value]) => (
-          <div
-            key={label}
-            className="flex py-1 border-b border-[#1a1a1e] font-mono text-xs"
-          >
-            <span className="w-[40%] shrink-0 text-[#52525b]">{label}</span>
-            <span className="text-[#d4d4d8]">{value}</span>
+          <div key={label} className="props-row">
+            <span className="props-label">{label}</span>
+            <span className="props-value">{value}</span>
           </div>
         ))}
         {extraProps.map(([key, value]) => (
-          <div
-            key={key}
-            className="flex py-1 border-b border-[#1a1a1e] font-mono text-xs"
-          >
-            <span className="w-[40%] shrink-0 text-[#52525b]">{key}</span>
-            <span className="text-[#d4d4d8]">{String(value)}</span>
+          <div key={key} className="props-row">
+            <span className="props-label">{key}</span>
+            <span className="props-value">{String(value)}</span>
           </div>
         ))}
       </div>

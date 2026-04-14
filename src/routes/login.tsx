@@ -19,34 +19,30 @@ function LoginPage() {
   const [tab, setTab] = useState<'signin' | 'signup'>('signin');
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-950 p-4">
-      <div className="w-full max-w-sm space-y-6">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-zinc-100">
-            bimbo
-          </h1>
-          <p className="mt-1 text-sm text-zinc-400">
-            Building Information Modeling
-          </p>
+    <div className="login-page">
+      <div className="login-container">
+        <div className="login-header">
+          <h1 className="login-title">bimbo</h1>
+          <p className="login-subtitle">Building Information Modeling</p>
         </div>
 
-        <Card className="border-zinc-800 bg-zinc-900">
+        <Card className="login-card">
           <Tabs
             value={tab}
             onValueChange={(v) => setTab(v as 'signin' | 'signup')}
           >
-            <CardHeader className="pb-4">
-              <TabsList className="grid w-full grid-cols-2">
+            <CardHeader>
+              <TabsList className="login-tabs-list">
                 <TabsTrigger value="signin">Sign In</TabsTrigger>
                 <TabsTrigger value="signup">Sign Up</TabsTrigger>
               </TabsList>
             </CardHeader>
 
             <CardContent>
-              <TabsContent value="signin" className="mt-0">
+              <TabsContent value="signin">
                 <SignInForm />
               </TabsContent>
-              <TabsContent value="signup" className="mt-0">
+              <TabsContent value="signup">
                 <SignUpForm />
               </TabsContent>
             </CardContent>
@@ -87,8 +83,8 @@ function SignInForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="space-y-2">
+    <form onSubmit={handleSubmit} className="auth-form">
+      <div className="form-field">
         <Label htmlFor="signin-email">Email</Label>
         <Input
           id="signin-email"
@@ -99,7 +95,7 @@ function SignInForm() {
           autoComplete="email"
         />
       </div>
-      <div className="space-y-2">
+      <div className="form-field">
         <Label htmlFor="signin-password">Password</Label>
         <Input
           id="signin-password"
@@ -109,8 +105,8 @@ function SignInForm() {
           autoComplete="current-password"
         />
       </div>
-      {error && <p className="text-sm text-red-400">{error}</p>}
-      <Button type="submit" className="w-full" disabled={loading}>
+      {error && <p className="form-error">{error}</p>}
+      <Button type="submit" className="form-submit" disabled={loading}>
         {loading ? 'Signing in...' : 'Sign In'}
       </Button>
     </form>
@@ -159,9 +155,9 @@ function SignUpForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-2 gap-3">
-        <div className="space-y-2">
+    <form onSubmit={handleSubmit} className="auth-form">
+      <div className="form-name-grid">
+        <div className="form-field">
           <Label htmlFor="signup-first">First name</Label>
           <Input
             id="signup-first"
@@ -170,7 +166,7 @@ function SignUpForm() {
             autoComplete="given-name"
           />
         </div>
-        <div className="space-y-2">
+        <div className="form-field">
           <Label htmlFor="signup-last">Last name</Label>
           <Input
             id="signup-last"
@@ -180,7 +176,7 @@ function SignUpForm() {
           />
         </div>
       </div>
-      <div className="space-y-2">
+      <div className="form-field">
         <Label htmlFor="signup-email">Email</Label>
         <Input
           id="signup-email"
@@ -191,7 +187,7 @@ function SignUpForm() {
           autoComplete="email"
         />
       </div>
-      <div className="space-y-2">
+      <div className="form-field">
         <Label htmlFor="signup-password">Password</Label>
         <Input
           id="signup-password"
@@ -202,8 +198,8 @@ function SignUpForm() {
           autoComplete="new-password"
         />
       </div>
-      {error && <p className="text-sm text-red-400">{error}</p>}
-      <Button type="submit" className="w-full" disabled={loading}>
+      {error && <p className="form-error">{error}</p>}
+      <Button type="submit" className="form-submit" disabled={loading}>
         {loading ? 'Creating account...' : 'Create Account'}
       </Button>
     </form>

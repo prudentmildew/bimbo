@@ -37,26 +37,16 @@ function UsersPage() {
   const editorRole = currentUser.role;
 
   return (
-    <div className="h-full overflow-auto p-6">
-      <h2 className="m-0 mb-4 text-xl font-bold text-foreground">
-        User Management
-      </h2>
-      <div className="rounded-md border border-border">
-        <table className="w-full text-sm">
+    <div className="users-page">
+      <h2 className="users-title">User Management</h2>
+      <div className="users-table-container">
+        <table className="users-table">
           <thead>
-            <tr className="border-b border-border bg-muted/50">
-              <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                Name
-              </th>
-              <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                Email
-              </th>
-              <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                Role
-              </th>
-              <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                Joined
-              </th>
+            <tr className="users-table-head-row">
+              <th className="users-th">Name</th>
+              <th className="users-th">Email</th>
+              <th className="users-th">Role</th>
+              <th className="users-th">Joined</th>
             </tr>
           </thead>
           <tbody>
@@ -67,25 +57,18 @@ function UsersPage() {
               return (
                 <tr
                   key={user.id}
-                  className={`border-b border-border last:border-b-0 ${
-                    isCurrentUser ? 'bg-primary/5' : ''
-                  }`}
+                  className={`users-tr ${isCurrentUser ? 'current' : ''}`}
                 >
-                  <td className="px-4 py-3 text-foreground">
+                  <td className="users-td">
                     {user.firstName} {user.lastName}
                     {isCurrentUser && (
-                      <Badge
-                        variant="outline"
-                        className="ml-2 text-[10px] font-mono"
-                      >
+                      <Badge variant="outline" className="users-you-badge">
                         You
                       </Badge>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-muted-foreground">
-                    {user.email}
-                  </td>
-                  <td className="px-4 py-3">
+                  <td className="users-td muted">{user.email}</td>
+                  <td className="users-td">
                     {editable ? (
                       <Select
                         value={user.role}
@@ -93,7 +76,7 @@ function UsersPage() {
                           updateUserRole(user.id, value as UserRole)
                         }
                       >
-                        <SelectTrigger className="h-8 w-[160px]">
+                        <SelectTrigger className="users-role-select">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -105,12 +88,12 @@ function UsersPage() {
                         </SelectContent>
                       </Select>
                     ) : (
-                      <span className="text-muted-foreground">
+                      <span className="users-role-text">
                         {ROLE_LABELS[user.role]}
                       </span>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-muted-foreground">
+                  <td className="users-td muted">
                     {new Date(user.createdAt).toLocaleDateString()}
                   </td>
                 </tr>

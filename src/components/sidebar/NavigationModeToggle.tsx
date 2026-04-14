@@ -6,13 +6,11 @@ export function NavigationModeToggle() {
   const setNavigationMode = useAppStore((s) => s.setNavigationMode);
 
   return (
-    <div className="py-2">
-      <div className="flex items-center px-2 pb-1.5">
-        <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
-          Navigation
-        </span>
+    <div className="sidebar-panel">
+      <div className="sidebar-panel-header">
+        <span className="mono-label">Navigation</span>
       </div>
-      <div className="px-2">
+      <div className="sidebar-panel-content">
         <ToggleGroup
           type="single"
           value={navigationMode}
@@ -20,24 +18,18 @@ export function NavigationModeToggle() {
             if (value) setNavigationMode(value as 'orbit' | 'first-person');
           }}
           size="sm"
-          className="w-full gap-0.5"
+          className="nav-toggle-group"
         >
-          <ToggleGroupItem
-            value="orbit"
-            className="flex-1 h-7 text-[11px] font-semibold data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
-          >
+          <ToggleGroupItem value="orbit" className="nav-toggle-item">
             Orbit
           </ToggleGroupItem>
-          <ToggleGroupItem
-            value="first-person"
-            className="flex-1 h-7 text-[11px] font-semibold data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
-          >
+          <ToggleGroupItem value="first-person" className="nav-toggle-item">
             First-Person
           </ToggleGroupItem>
         </ToggleGroup>
       </div>
       {navigationMode === 'first-person' && (
-        <p className="mx-2 mt-1.5 text-[10px] text-muted-foreground leading-snug">
+        <p className="nav-hint">
           Click canvas to lock. WASD/arrows to move. R/F up/down. Shift = fast.
           Esc to unlock.
         </p>

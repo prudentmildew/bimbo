@@ -14,10 +14,10 @@ const DISCIPLINE_LABELS: Record<Discipline, string> = {
   mep: 'MEP',
 };
 
-const DISCIPLINE_COLORS: Record<Discipline, string> = {
-  architectural: 'bg-architecture',
-  structural: 'bg-structure',
-  mep: 'bg-mep',
+const DISCIPLINE_CSS: Record<Discipline, string> = {
+  architectural: 'var(--color-architecture)',
+  structural: 'var(--color-structure)',
+  mep: 'var(--color-mep)',
 };
 
 export function LayerPanel() {
@@ -45,15 +45,13 @@ export function LayerPanel() {
   const allVisible = Object.values(disciplineVisibility).every(Boolean);
 
   return (
-    <div className="py-2">
-      <div className="flex items-center justify-between px-2 pb-1.5">
-        <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
-          Layers
-        </span>
+    <div className="sidebar-panel">
+      <div className="sidebar-panel-header">
+        <span className="mono-label">Layers</span>
         <button
           type="button"
           onClick={() => setAllVisible(!allVisible)}
-          className="text-[10px] text-muted-foreground bg-transparent border-none cursor-pointer p-0 hover:text-foreground"
+          className="sidebar-panel-action"
         >
           {allVisible ? 'Hide all' : 'Show all'}
         </button>
@@ -72,18 +70,18 @@ export function LayerPanel() {
               setExpanded((prev) => ({ ...prev, [discipline]: open }))
             }
           >
-            <div className="flex items-center px-2 py-0.5">
-              <CollapsibleTrigger className="bg-transparent border-none text-muted-foreground cursor-pointer text-[8px] p-0 pr-1 w-4">
+            <div className="layer-row">
+              <CollapsibleTrigger className="layer-expand-btn">
                 {isExpanded ? '\u25BC' : '\u25B6'}
               </CollapsibleTrigger>
               <span
-                className={`inline-block w-2 h-2 rounded-full mr-1.5 ${DISCIPLINE_COLORS[discipline]}`}
+                className="layer-dot"
+                style={{ background: DISCIPLINE_CSS[discipline] }}
               />
-              <div className="flex items-center gap-1.5 text-xs text-foreground/80 cursor-pointer">
+              <div className="layer-check-row">
                 <Checkbox
                   checked={isVisible}
                   onCheckedChange={() => toggleDiscipline(discipline)}
-                  className="h-3.5 w-3.5"
                 />
                 <span>{DISCIPLINE_LABELS[discipline]}</span>
               </div>
@@ -93,19 +91,16 @@ export function LayerPanel() {
               {[...types].sort().map((ifcType) => {
                 const typeVisible = typeVisibility[ifcType] ?? true;
                 return (
-                  <div key={ifcType} className="py-0.5 px-2 pl-7">
-                    <div className="flex items-center gap-1.5 text-xs cursor-pointer">
+                  <div key={ifcType} className="layer-type-row">
+                    <div className="layer-check-row">
                       <Checkbox
                         checked={typeVisible && isVisible}
                         disabled={!isVisible}
                         onCheckedChange={() => toggleType(ifcType)}
-                        className="h-3.5 w-3.5"
                       />
                       <span
                         className={
-                          isVisible
-                            ? 'text-foreground/80'
-                            : 'text-muted-foreground'
+                          isVisible ? 'layer-type-label' : 'layer-type-label muted'
                         }
                       >
                         {ifcType}

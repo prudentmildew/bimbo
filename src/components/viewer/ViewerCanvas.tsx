@@ -61,23 +61,23 @@ export function ViewerCanvas() {
 
   return (
     <div
-      className="relative w-full h-full"
+      className="viewer-container"
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
       {dragging && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center rounded-lg border-2 border-dashed border-primary bg-primary/15 text-primary pointer-events-none">
-          <p className="text-lg font-semibold">Drop .glTF / .glb file</p>
+        <div className="viewer-drop-overlay">
+          <p className="viewer-drop-text">Drop .glTF / .glb file</p>
         </div>
       )}
       {error && (
-        <div className="absolute top-2 right-2 z-20 flex items-center gap-2 rounded bg-destructive/80 text-destructive-foreground px-3 py-1.5 text-xs">
+        <div className="viewer-error">
           {error}
           <button
             type="button"
             onClick={() => setError(null)}
-            className="bg-transparent border-none text-destructive-foreground cursor-pointer text-xs"
+            className="viewer-error-dismiss"
           >
             x
           </button>
@@ -85,7 +85,7 @@ export function ViewerCanvas() {
       )}
       <Canvas
         camera={{ position: [30, 20, 30], fov: 50 }}
-        className="w-full h-full"
+        className="viewer-canvas"
         gl={{ localClippingEnabled: true }}
       >
         <ambientLight intensity={0.4} />
