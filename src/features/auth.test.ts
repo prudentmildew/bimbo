@@ -34,10 +34,10 @@ describe('auth slice', () => {
       expect(state.registeredUsers[0]).toBe(state.currentUser);
     });
 
-    it('promotes the first user to project_admin (cold start)', async () => {
+    it('promotes the first user to owner (cold start)', async () => {
       const store = createAuthStore();
       await store.getState().signUp('first@example.com', 'pass', 'First', 'User');
-      expect(store.getState().currentUser!.role).toBe('project_admin');
+      expect(store.getState().currentUser!.role).toBe('owner');
     });
 
     it('assigns subsequent users the user role', async () => {
@@ -47,7 +47,7 @@ describe('auth slice', () => {
 
       const users = store.getState().registeredUsers;
       expect(users).toHaveLength(2);
-      expect(users[0].role).toBe('project_admin');
+      expect(users[0].role).toBe('owner');
       expect(users[1].role).toBe('user');
     });
 
@@ -181,25 +181,45 @@ describe('auth slice', () => {
   });
 
   describe('updateUserRole', () => {
-    it('allows an admin to change another user role', async () => {
+    it('allows owner to assign any role', async () => {
       const store = createAuthStore();
-      // First user = project_admin
-      await store.getState().signUp('admin@example.com', 'pass', 'Admin', 'A');
+      // First user = owner
+      await store.getState().signUp('owner@example.com', 'pass', 'Owner', 'O');
       await store.getState().signUp('user@example.com', 'pass', 'User', 'U');
-      // Sign in as admin
-      await store.getState().signIn('admin@example.com', 'pass');
+      await store.getState().signIn('owner@example.com', 'pass');
 
       const userId = store.getState().registeredUsers[1].id;
+
+      store.getState().updateUserRole(userId, 'customer_admin');
+      expect(store.getState().registeredUsers[1].role).toBe('customer_admin');
+
+      store.getState().updateUserRole(userId, 'owner');
+      expect(store.getState().registeredUsers[1].role).toBe('owner');
+    });
+
+    it('allows an admin to change another user role', async () => {
+      const store = createAuthStore();
+      // First user = owner, promotes second to project_admin
+      await store.getState().signUp('owner@example.com', 'pass', 'Owner', 'O');
+      await store.getState().signUp('admin@example.com', 'pass', 'Admin', 'A');
+      await store.getState().signUp('user@example.com', 'pass', 'User', 'U');
+      await store.getState().signIn('owner@example.com', 'pass');
+      const adminId = store.getState().registeredUsers[1].id;
+      store.getState().updateUserRole(adminId, 'project_admin');
+      // Now sign in as project_admin
+      await store.getState().signIn('admin@example.com', 'pass');
+
+      const userId = store.getState().registeredUsers[2].id;
       store.getState().updateUserRole(userId, 'workflow_admin');
 
-      expect(store.getState().registeredUsers[1].role).toBe('workflow_admin');
+      expect(store.getState().registeredUsers[2].role).toBe('workflow_admin');
     });
 
     it('allows an admin to change a user role multiple times', async () => {
       const store = createAuthStore();
-      await store.getState().signUp('admin@example.com', 'pass', 'Admin', 'A');
+      await store.getState().signUp('owner@example.com', 'pass', 'Owner', 'O');
       await store.getState().signUp('user@example.com', 'pass', 'User', 'U');
-      await store.getState().signIn('admin@example.com', 'pass');
+      await store.getState().signIn('owner@example.com', 'pass');
 
       const userId = store.getState().registeredUsers[1].id;
 
@@ -215,35 +235,41 @@ describe('auth slice', () => {
 
     it('rejects assigning a role at or above the editor rank', async () => {
       const store = createAuthStore();
+      // First user = owner, promotes second to project_admin
+      await store.getState().signUp('owner@example.com', 'pass', 'Owner', 'O');
       await store.getState().signUp('admin@example.com', 'pass', 'Admin', 'A');
       await store.getState().signUp('user@example.com', 'pass', 'User', 'U');
+      await store.getState().signIn('owner@example.com', 'pass');
+      const adminId = store.getState().registeredUsers[1].id;
+      store.getState().updateUserRole(adminId, 'project_admin');
+      // Now sign in as project_admin
       await store.getState().signIn('admin@example.com', 'pass');
 
-      const userId = store.getState().registeredUsers[1].id;
+      const userId = store.getState().registeredUsers[2].id;
 
       // project_admin (rank 2) should not be able to assign project_admin, customer_admin, or owner
       store.getState().updateUserRole(userId, 'project_admin');
-      expect(store.getState().registeredUsers[1].role).toBe('user');
+      expect(store.getState().registeredUsers[2].role).toBe('user');
 
       store.getState().updateUserRole(userId, 'customer_admin');
-      expect(store.getState().registeredUsers[1].role).toBe('user');
+      expect(store.getState().registeredUsers[2].role).toBe('user');
 
       store.getState().updateUserRole(userId, 'owner');
-      expect(store.getState().registeredUsers[1].role).toBe('user');
+      expect(store.getState().registeredUsers[2].role).toBe('user');
     });
 
     it('rejects role change when editor lacks permission', async () => {
       const store = createAuthStore();
-      await store.getState().signUp('admin@example.com', 'pass', 'Admin', 'A');
+      await store.getState().signUp('owner@example.com', 'pass', 'Owner', 'O');
       await store.getState().signUp('user@example.com', 'pass', 'User', 'U');
       // Sign in as the regular user
       await store.getState().signIn('user@example.com', 'pass');
 
-      const adminId = store.getState().registeredUsers[0].id;
-      store.getState().updateUserRole(adminId, 'user');
+      const ownerId = store.getState().registeredUsers[0].id;
+      store.getState().updateUserRole(ownerId, 'user');
 
-      // Should not have changed — user can't edit project_admin
-      expect(store.getState().registeredUsers[0].role).toBe('project_admin');
+      // Should not have changed — user can't edit owner
+      expect(store.getState().registeredUsers[0].role).toBe('owner');
     });
   });
 });

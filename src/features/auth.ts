@@ -100,7 +100,7 @@ export const createAuthSlice: StateCreator<AuthSlice> = (set, get) => ({
       passwordHash,
       firstName,
       lastName,
-      role: isFirstUser ? 'project_admin' : 'user',
+      role: isFirstUser ? 'owner' : 'user',
       createdAt: new Date().toISOString(),
     };
 
