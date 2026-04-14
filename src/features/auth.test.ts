@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createStore } from 'zustand';
-import { type AuthSlice, type UserRole, canEditRole, createAuthSlice } from './auth';
+import { type AuthSlice, type UserRole, canEditRole, canAssignRole, assignableRoles, createAuthSlice } from './auth';
 
 function createAuthStore() {
   return createStore<AuthSlice>()(createAuthSlice);
@@ -150,6 +150,36 @@ describe('auth slice', () => {
     });
   });
 
+  describe('canAssignRole', () => {
+    it('allows owner to assign any role', () => {
+      const allRoles: UserRole[] = ['user', 'guest', 'workflow_admin', 'project_admin', 'customer_admin', 'owner'];
+      for (const role of allRoles) {
+        expect(canAssignRole('owner', role)).toBe(true);
+      }
+    });
+
+    it('restricts non-owner admins to roles below their rank', () => {
+      expect(canAssignRole('project_admin', 'user')).toBe(true);
+      expect(canAssignRole('project_admin', 'guest')).toBe(true);
+      expect(canAssignRole('project_admin', 'workflow_admin')).toBe(true);
+      expect(canAssignRole('project_admin', 'project_admin')).toBe(false);
+      expect(canAssignRole('project_admin', 'customer_admin')).toBe(false);
+      expect(canAssignRole('project_admin', 'owner')).toBe(false);
+    });
+  });
+
+  describe('assignableRoles', () => {
+    it('returns all roles for owner', () => {
+      const roles = assignableRoles('owner');
+      expect(roles).toEqual(['owner', 'customer_admin', 'project_admin', 'workflow_admin', 'user', 'guest']);
+    });
+
+    it('returns only lower-ranked roles for project_admin', () => {
+      const roles = assignableRoles('project_admin');
+      expect(roles).toEqual(['workflow_admin', 'user', 'guest']);
+    });
+  });
+
   describe('updateUserRole', () => {
     it('allows an admin to change another user role', async () => {
       const store = createAuthStore();
@@ -163,6 +193,43 @@ describe('auth slice', () => {
       store.getState().updateUserRole(userId, 'workflow_admin');
 
       expect(store.getState().registeredUsers[1].role).toBe('workflow_admin');
+    });
+
+    it('allows an admin to change a user role multiple times', async () => {
+      const store = createAuthStore();
+      await store.getState().signUp('admin@example.com', 'pass', 'Admin', 'A');
+      await store.getState().signUp('user@example.com', 'pass', 'User', 'U');
+      await store.getState().signIn('admin@example.com', 'pass');
+
+      const userId = store.getState().registeredUsers[1].id;
+
+      store.getState().updateUserRole(userId, 'workflow_admin');
+      expect(store.getState().registeredUsers[1].role).toBe('workflow_admin');
+
+      store.getState().updateUserRole(userId, 'guest');
+      expect(store.getState().registeredUsers[1].role).toBe('guest');
+
+      store.getState().updateUserRole(userId, 'user');
+      expect(store.getState().registeredUsers[1].role).toBe('user');
+    });
+
+    it('rejects assigning a role at or above the editor rank', async () => {
+      const store = createAuthStore();
+      await store.getState().signUp('admin@example.com', 'pass', 'Admin', 'A');
+      await store.getState().signUp('user@example.com', 'pass', 'User', 'U');
+      await store.getState().signIn('admin@example.com', 'pass');
+
+      const userId = store.getState().registeredUsers[1].id;
+
+      // project_admin (rank 2) should not be able to assign project_admin, customer_admin, or owner
+      store.getState().updateUserRole(userId, 'project_admin');
+      expect(store.getState().registeredUsers[1].role).toBe('user');
+
+      store.getState().updateUserRole(userId, 'customer_admin');
+      expect(store.getState().registeredUsers[1].role).toBe('user');
+
+      store.getState().updateUserRole(userId, 'owner');
+      expect(store.getState().registeredUsers[1].role).toBe('user');
     });
 
     it('rejects role change when editor lacks permission', async () => {

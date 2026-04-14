@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { type UserRole, canEditRole } from '@/features/auth';
+import { type UserRole, canEditRole, assignableRoles } from '@/features/auth';
 
 const ALL_ROLES: { value: UserRole; label: string }[] = [
   { value: 'owner', label: 'Owner' },
@@ -35,6 +35,7 @@ function UsersPage() {
   if (!currentUser) return null;
 
   const editorRole = currentUser.role;
+  const allowedRoles = assignableRoles(editorRole);
 
   return (
     <div className="users-page">
@@ -80,7 +81,9 @@ function UsersPage() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          {ALL_ROLES.map((role) => (
+                          {ALL_ROLES.filter((role) =>
+                            allowedRoles.includes(role.value),
+                          ).map((role) => (
                             <SelectItem key={role.value} value={role.value}>
                               {role.label}
                             </SelectItem>

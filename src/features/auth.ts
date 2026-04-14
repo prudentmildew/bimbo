@@ -69,6 +69,20 @@ export function canEditRole(
   return ROLE_RANK[targetCurrentRole] < editorRank;
 }
 
+export function canAssignRole(
+  editorRole: UserRole,
+  newRole: UserRole,
+): boolean {
+  if (editorRole === 'owner') return true;
+  return ROLE_RANK[newRole] < ROLE_RANK[editorRole];
+}
+
+export function assignableRoles(editorRole: UserRole): UserRole[] {
+  return (['owner', 'customer_admin', 'project_admin', 'workflow_admin', 'user', 'guest'] as UserRole[]).filter(
+    (role) => canAssignRole(editorRole, role),
+  );
+}
+
 export const createAuthSlice: StateCreator<AuthSlice> = (set, get) => ({
   currentUser: null,
   registeredUsers: [],
@@ -126,6 +140,7 @@ export const createAuthSlice: StateCreator<AuthSlice> = (set, get) => ({
     const target = get().registeredUsers.find((u) => u.id === userId);
     if (!target) return;
     if (!canEditRole(editor.role, target.role)) return;
+    if (!canAssignRole(editor.role, newRole)) return;
 
     set((s) => ({
       registeredUsers: s.registeredUsers.map((u) =>
