@@ -13,6 +13,7 @@ import { Route as ViewerRouteImport } from './routes/viewer'
 import { Route as UsersRouteImport } from './routes/users'
 import { Route as TaktRouteImport } from './routes/takt'
 import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as DiaryRouteImport } from './routes/diary'
 import { Route as ChecklistsRouteImport } from './routes/checklists'
@@ -38,6 +39,11 @@ const TaktRoute = TaktRouteImport.update({
 const ReportsRoute = ReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocumentsRoute = DocumentsRouteImport.update({
@@ -78,6 +84,7 @@ export interface FileRoutesByFullPath {
   '/checklists': typeof ChecklistsRoute
   '/diary': typeof DiaryRoute
   '/documents': typeof DocumentsRoute
+  '/login': typeof LoginRoute
   '/reports': typeof ReportsRoute
   '/takt': typeof TaktRoute
   '/users': typeof UsersRoute
@@ -90,6 +97,7 @@ export interface FileRoutesByTo {
   '/checklists': typeof ChecklistsRoute
   '/diary': typeof DiaryRoute
   '/documents': typeof DocumentsRoute
+  '/login': typeof LoginRoute
   '/reports': typeof ReportsRoute
   '/takt': typeof TaktRoute
   '/users': typeof UsersRoute
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/checklists': typeof ChecklistsRoute
   '/diary': typeof DiaryRoute
   '/documents': typeof DocumentsRoute
+  '/login': typeof LoginRoute
   '/reports': typeof ReportsRoute
   '/takt': typeof TaktRoute
   '/users': typeof UsersRoute
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/checklists'
     | '/diary'
     | '/documents'
+    | '/login'
     | '/reports'
     | '/takt'
     | '/users'
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/checklists'
     | '/diary'
     | '/documents'
+    | '/login'
     | '/reports'
     | '/takt'
     | '/users'
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/checklists'
     | '/diary'
     | '/documents'
+    | '/login'
     | '/reports'
     | '/takt'
     | '/users'
@@ -154,6 +166,7 @@ export interface RootRouteChildren {
   ChecklistsRoute: typeof ChecklistsRoute
   DiaryRoute: typeof DiaryRoute
   DocumentsRoute: typeof DocumentsRoute
+  LoginRoute: typeof LoginRoute
   ReportsRoute: typeof ReportsRoute
   TaktRoute: typeof TaktRoute
   UsersRoute: typeof UsersRoute
@@ -188,6 +201,13 @@ declare module '@tanstack/react-router' {
       path: '/reports'
       fullPath: '/reports'
       preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/documents': {
@@ -242,6 +262,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChecklistsRoute: ChecklistsRoute,
   DiaryRoute: DiaryRoute,
   DocumentsRoute: DocumentsRoute,
+  LoginRoute: LoginRoute,
   ReportsRoute: ReportsRoute,
   TaktRoute: TaktRoute,
   UsersRoute: UsersRoute,
