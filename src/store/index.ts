@@ -53,13 +53,11 @@ export function createAppStore() {
     persist(
       (set, get, store) => ({
         // Auth (composed slice)
-        ...(createAuthSlice as unknown as typeof createAuthSlice & {
-          (
-            set: typeof set,
-            get: typeof get,
-            store: typeof store,
-          ): AuthSlice;
-        })(set, get, store),
+        ...createAuthSlice(
+          set as Parameters<typeof createAuthSlice>[0],
+          get as Parameters<typeof createAuthSlice>[1],
+          store as Parameters<typeof createAuthSlice>[2],
+        ),
 
         // Model
         objects: [],

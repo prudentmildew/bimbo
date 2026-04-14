@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { LogOut, Trash2, User } from 'lucide-react';
+import { LogOut, Trash2 } from 'lucide-react';
 import { useAppStore } from '@/store';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
