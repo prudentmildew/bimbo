@@ -255,7 +255,245 @@ table {
    4. Layout styles (app shell, sidebar, panels)
    ========================================================================== */
 
-/* Placeholder — populated in layout shell migration (issue #25) */
+/* --- App shell (3-column layout) --- */
+
+.app-shell {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg-page);
+  color: var(--text-primary);
+}
+
+.app-main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.app-toolbar {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 10;
+  display: flex;
+  gap: var(--space-px);
+}
+
+.toolbar-btn {
+  height: 28px;
+  padding: 0 var(--space-2);
+  font-size: var(--text-small);
+  background: var(--surface-glass);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+}
+
+.toolbar-btn:hover {
+  background: var(--border-default);
+}
+
+.app-content {
+  flex: 1;
+}
+
+/* --- Left sidebar --- */
+
+.sidebar-left {
+  display: flex;
+  flex-direction: column;
+  width: 260px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border-default);
+  background: var(--bg-page);
+}
+
+.sidebar-header {
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.sidebar-logo {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.sidebar-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.sidebar-section {
+  padding: var(--space-2);
+}
+
+.sidebar-section hr {
+  margin: var(--space-2) 0;
+}
+
+.sidebar-section-label {
+  margin: 0 0 var(--space-px) 0;
+  padding: 0 var(--space-2);
+  font-size: 10px;
+}
+
+.sidebar-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-1-5) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.sidebar-nav-link:hover {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.sidebar-nav-link.active {
+  background: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.sidebar-badge {
+  display: inline-block;
+  height: 16px;
+  padding: 0 var(--space-px);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  line-height: 16px;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-mono);
+  color: var(--text-muted);
+  background: var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.sidebar-footer {
+  border-top: 1px solid var(--border-default);
+  padding: var(--space-2);
+}
+
+/* --- Right panel --- */
+
+.panel-right {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  flex-shrink: 0;
+  border-left: 1px solid var(--border-default);
+  background: var(--bg-page);
+}
+
+.panel-header {
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.panel-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* --- Shell placeholder --- */
+
+.shell-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-deepest);
+}
+
+.shell-placeholder-inner {
+  text-align: center;
+  max-width: 400px;
+  padding: var(--space-8);
+}
+
+.shell-placeholder-title {
+  margin: 0 0 var(--space-2) 0;
+  font-size: var(--text-card-title);
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.shell-placeholder-desc {
+  margin: 0 0 var(--space-4) 0;
+  font-size: var(--text-nav);
+  color: var(--text-muted);
+  line-height: var(--leading-body);
+}
+
+.shell-placeholder-badge {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  background: var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+/* --- Custom scrollbar (dark theme) --- */
+
+.sidebar-body::-webkit-scrollbar,
+.panel-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-body::-webkit-scrollbar-track,
+.panel-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-body::-webkit-scrollbar-thumb,
+.panel-body::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 3px;
+}
+
+.sidebar-body::-webkit-scrollbar-thumb:hover,
+.panel-body::-webkit-scrollbar-thumb:hover {
+  background: var(--border-prominent);
+}
+
+/* --- Responsive: 600px mobile-first breakpoint --- */
+
+@media (max-width: 600px) {
+  .sidebar-left {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 20;
+    width: 260px;
+  }
+
+  .panel-right {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    width: 280px;
+  }
+}
 
 /* ==========================================================================
    5. Component styles (buttons, cards, inputs, tabs, etc.)

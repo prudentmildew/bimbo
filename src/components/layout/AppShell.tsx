@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import { Button } from '@/components/ui/button';
 import { useAppStore } from '../../store';
 import { LeftSidebar } from './LeftSidebar';
 import { RightPanel } from './RightPanel';
@@ -11,29 +10,27 @@ export function AppShell({ children }: { children: ReactNode }) {
   const toggleRightPanel = useAppStore((s) => s.toggleRightPanel);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-background text-foreground">
+    <div className="app-shell">
       {leftSidebarOpen && <LeftSidebar />}
 
-      <div className="relative flex flex-col flex-1 min-w-0">
-        <div className="absolute top-2 left-2 z-10 flex gap-1">
-          <Button
-            variant="ghost"
-            size="sm"
+      <div className="app-main">
+        <div className="app-toolbar">
+          <button
+            type="button"
+            className="toolbar-btn"
             onClick={toggleLeftSidebar}
-            className="h-7 px-2 text-xs bg-card/80 backdrop-blur-sm border border-border hover:bg-secondary"
           >
             {leftSidebarOpen ? '\u25C0' : '\u25B6'} Sidebar
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
+          </button>
+          <button
+            type="button"
+            className="toolbar-btn"
             onClick={toggleRightPanel}
-            className="h-7 px-2 text-xs bg-card/80 backdrop-blur-sm border border-border hover:bg-secondary"
           >
             Panel {rightPanelOpen ? '\u25B6' : '\u25C0'}
-          </Button>
+          </button>
         </div>
-        <div className="flex-1">{children}</div>
+        <div className="app-content">{children}</div>
       </div>
 
       {rightPanelOpen && <RightPanel />}

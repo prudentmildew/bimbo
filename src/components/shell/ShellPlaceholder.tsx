@@ -1,5 +1,3 @@
-import { Badge } from '@/components/ui/badge';
-
 interface ShellPlaceholderProps {
   title: string;
   description: string;
@@ -10,18 +8,11 @@ export function ShellPlaceholder({
   description,
 }: ShellPlaceholderProps) {
   return (
-    <div className="flex items-center justify-center w-full h-full bg-background">
-      <div className="text-center max-w-[400px] p-8">
-        <h2 className="m-0 mb-2 text-2xl font-bold text-foreground">{title}</h2>
-        <p className="m-0 mb-4 text-sm text-muted-foreground leading-relaxed">
-          {description}
-        </p>
-        <Badge
-          variant="secondary"
-          className="font-mono text-xs text-muted-foreground"
-        >
-          Coming Soon
-        </Badge>
+    <div className="shell-placeholder">
+      <div className="shell-placeholder-inner">
+        <h2 className="shell-placeholder-title">{title}</h2>
+        <p className="shell-placeholder-desc">{description}</p>
+        <span className="shell-placeholder-badge mono-label">Coming Soon</span>
       </div>
     </div>
   );
