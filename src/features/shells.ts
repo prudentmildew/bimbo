@@ -9,8 +9,6 @@ export type CaptureSlice = Record<string, never>;
 
 export type DocumentsSlice = Record<string, never>;
 
-export type UsersSlice = Record<string, never>;
-
 export type ReportsSlice = Record<string, never>;
 
 export type TaktSlice = Record<string, never>;
