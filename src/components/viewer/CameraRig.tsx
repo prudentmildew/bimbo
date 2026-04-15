@@ -14,6 +14,16 @@ export function CameraRig() {
   const { camera } = useThree();
   const orbitRef = useRef<OrbitControlsImpl>(null);
 
+  const prevModeRef = useRef(navigationMode);
+  useEffect(() => {
+    const prevMode = prevModeRef.current;
+    prevModeRef.current = navigationMode;
+    if (prevMode === 'first-person' && navigationMode !== 'first-person') {
+      document.exitPointerLock();
+      document.body.style.cursor = 'default';
+    }
+  }, [navigationMode]);
+
   useEffect(() => {
     if (navigationMode !== 'first-person') return;
 
