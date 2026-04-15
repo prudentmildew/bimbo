@@ -915,6 +915,8 @@ table {
 .toggle-group-item:focus-visible {
   outline: none;
   box-shadow: var(--shadow-focus);
+  background: var(--border-subtle);
+  color: var(--text-secondary);
 }
 
 .toggle svg,
